@@ -22,7 +22,9 @@ interface CandidateFormProps {
   disabled?: boolean;
 }
 
-function validate(values: CandidateFormValues): Record<string, string> {
+export function validateCandidateForm(
+  values: CandidateFormValues,
+): Record<string, string> {
   const errors: Record<string, string> = {};
 
   if (!values.firstName.trim()) {
@@ -129,7 +131,7 @@ export default function CandidateForm({ onSubmit, disabled }: CandidateFormProps
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const validationErrors = validate(values);
+    const validationErrors = validateCandidateForm(values);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
