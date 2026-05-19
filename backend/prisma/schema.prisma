@@ -20,7 +20,7 @@ model User {
 }
 
 // Email: normalize trim().toLowerCase() in API before create.
-// CV: set cvFileName, cvPath, cvMimeType together or all null (see candidateService).
+// CV: set cvFileName, cvPath, cvMimeType together or all null (see candidate.service.ts).
 model Candidate {
   id         Int      @id @default(autoincrement())
   firstName  String

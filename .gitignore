@@ -25,5 +25,8 @@ yarn-error.log*
 .idea
 .vscode
 
+# Uploaded CVs
+**/uploads/
+
 # .env
 

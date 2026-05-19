@@ -1,26 +1,29 @@
-import { Request, Response, NextFunction } from 'express';
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import cors from 'cors';
 import dotenv from 'dotenv';
+import { candidateRouter } from './features/candidates/candidate.routes';
+import { errorHandler } from './shared/middleware/errorHandler';
 
 dotenv.config();
-const prisma = new PrismaClient();
 
 export const app = express();
-export default prisma;
 
 const port = 3010;
+const frontendOrigin = process.env.FRONTEND_URL ?? 'http://localhost:3000';
 
-app.get('/', (req, res) => {
-  res.send('Hola LTI!');
+app.use(cors({ origin: frontendOrigin }));
+app.use(express.json());
+
+app.get('/', (_req, res) => {
+  res.send('Hello LTI!');
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.type('text/plain'); 
-  res.status(500).send('Something broke!');
-});
+app.use('/api/candidates', candidateRouter);
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+app.use(errorHandler);
+
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
+}
